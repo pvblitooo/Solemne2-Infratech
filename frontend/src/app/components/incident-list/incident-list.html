@@ -1,1 +1,106 @@
-<p>incident-list works!</p>
+<div class="filters-container">
+  <h3>Filtrar Incidentes</h3>
+  <div class="filter-group">
+    <label for="typeFilter">Tipo:</label>
+    <select id="typeFilter" [(ngModel)]="currentFilterType" (ngModelChange)="onFilterTypeChange($event)">
+      <option value="">Todos</option>
+      <option *ngFor="let typeOpt of types" [value]="typeOpt">{{ typeOpt }}</option>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label for="areaFilter">Área:</label>
+    <select id="areaFilter" [(ngModel)]="currentFilterArea" (ngModelChange)="onFilterAreaChange($event)">
+      <option value="">Todas</option>
+      <option *ngFor="let areaOpt of areas" [value]="areaOpt">{{ areaOpt }}</option>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label for="statusFilter">Estado:</label>
+    <select id="statusFilter" [(ngModel)]="currentFilterStatus" (ngModelChange)="onFilterStatusChange($event)">
+      <option value="">Todos</option>
+      <option *ngFor="let statusOpt of statuses" [value]="statusOpt">{{ statusOpt }}</option>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label for="priorityFilter">Prioridad:</label>
+    <select id="priorityFilter" [(ngModel)]="currentFilterPriority" (ngModelChange)="onFilterPriorityChange($event)">
+      <option value="">Todas</option>
+      <option *ngFor="let prioOpt of priorities" [value]="prioOpt">{{ prioOpt }}</option>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label for="dateFilter">Fecha Creación:</label>
+    <input type="date" id="dateFilter" [(ngModel)]="currentFilterDate" (ngModelChange)="onFilterDateChange($event)">
+  </div>
+   <div class="filter-group">
+    <button (click)="clearFilters()" class="btn btn-outline">Limpiar Filtros</button>
+  </div>
+</div>
+
+<div class="report-actions">
+  <button (click)="generatePdfReport()" class="btn btn-success">
+    <i class="icon-pdf"></i> Generar Reporte PDF
+  </button>
+</div>
+
+<h2>Lista de Incidentes</h2>
+
+<div *ngIf="filteredIncidents$ | async as incidents; else loadingOrNoIncidents">
+  <div *ngIf="incidents.length > 0; else noIncidentsMessage">
+    <table>
+      <thead>
+        <tr>
+          <th>ID (corto)</th>
+          <th>Tipo</th>
+          <th>Área</th>
+          <th>Descripción (corta)</th>
+          <th>Estado</th>
+          <th>Prioridad</th>
+          <th>Fecha Creación</th>
+          <th>Asignado a</th>
+          <th>Fecha Resolución</th>
+          <th>Tiempo Resolución</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let incident of incidents" [class.overdue]="isOverdue(incident)">
+          <td>{{ incident.id | slice:0:8 }}...</td>
+          <td>{{ incident.type }}</td>
+          <td>{{ incident.area }}</td>
+          <td>{{ incident.description | slice:0:40 }}{{ incident.description.length > 40 ? '...' : '' }}</td>
+          <td>
+            <span class="status" [ngClass]="incident.status.toLowerCase().replace(' ', '-')">
+              {{ incident.status }}
+            </span>
+          </td>
+          <td>
+            <span class="priority" [ngClass]="incident.priority.toLowerCase()">
+              {{ incident.priority }}
+            </span>
+          </td>
+          <td>{{ incident.creationDate | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ incident.assignedTo || 'No asignado' }}</td>
+          <td>{{ incident.resolutionDate ? (incident.resolutionDate | date:'dd/MM/yyyy HH:mm') : 'N/A' }}</td>
+          <td>{{ incident.resolutionTime || 'N/A' }}</td>
+          <td>
+            <a [routerLink]="['/incidents/edit', incident.id]" class="action-link edit-link">Editar</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #loadingOrNoIncidents>
+    <div *ngIf="(filteredIncidents$ | async) === null; else noIncidentsMessage"> <p>Cargando incidentes...</p>
+    </div>
+</ng-template>
+
+<ng-template #noIncidentsMessage>
+  <p>No hay incidentes que coincidan con los filtros aplicados.</p>
+</ng-template>

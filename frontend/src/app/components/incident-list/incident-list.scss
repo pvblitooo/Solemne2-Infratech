@@ -1,0 +1,181 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px; // Ajustar padding si es necesario
+    text-align: left;
+    vertical-align: top; // Buen alineamiento para descripciones largas
+  }
+
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  tbody tr:hover {
+    background-color: #e9e9e9;
+  }
+}
+
+.status {
+  padding: 3px 8px;
+  border-radius: 12px;
+  color: white;
+  font-size: 0.85em;
+  text-transform: capitalize;
+
+  &.nuevo { background-color: #007bff; }
+  &.en-proceso { background-color: #ffc107; color: #212529; }
+  &.resuelto { background-color: #28a745; }
+}
+
+.priority {
+  padding: 3px 8px;
+  border-radius: 12px;
+  color: white;
+  font-size: 0.85em;
+
+  &.alta { background-color: #dc3545; }
+  &.media { background-color: #fd7e14; }
+  &.baja { background-color: #17a2b8; }
+}
+
+// Estilo para la fila de un incidente vencido
+tr.overdue {
+  background-color: #fff3cd !important; // Un amarillo pálido de advertencia
+  // border-left: 4px solid #dc3545; // Un borde distintivo
+
+  // Opcional: hacer el texto un poco más oscuro para mejor contraste en el fondo amarillo
+  // color: #555;
+
+  // Si quieres un icono o texto antes del ID para los vencidos:
+  td:first-child::before {
+    content: "⚠️ VENCIDO - ";
+    color: #b96f00; // Un color naranja oscuro/marrón
+    font-weight: bold;
+    margin-right: 4px;
+  }
+}
+tr.overdue:hover {
+  background-color: #ffeeba !important; // Un amarillo un poco más oscuro al hacer hover
+}
+
+// Enlaces de acción
+.action-link {
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  margin-right: 5px; // Espacio entre botones si hay más
+
+  &.edit-link {
+    background-color: #17a2b8; // Un color cian/turquesa
+    color: white;
+    &:hover {
+      background-color: #117a8b;
+    }
+  }
+  // Aquí podrías definir estilos para otros enlaces/botones de acción
+
+.report-actions {
+  margin-bottom: 20px; // Espacio antes del título de la lista
+  text-align: right; // Alinea el botón a la derecha
+
+  .btn-success {
+    background-color: #28a745; // Verde
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #218838;
+    }
+
+    .icon-pdf { // Estilo para un ícono simple (puedes usar una librería de íconos)
+      margin-right: 8px;
+      // Si usas FontAwesome, por ejemplo: content: "\f1c1"; font-family: "Font Awesome 5 Free"; font-weight: 900;
+      // Para un ícono CSS simple:
+      display: inline-block;
+      width: 12px;
+      height: 14px;
+      background-color: currentColor; // Usa el color del texto (blanco)
+      clip-path: polygon(0 0, 70% 0, 100% 20%, 100% 100%, 0 100%); // Forma de documento
+      position: relative;
+      top: 1px;
+    }
+  }
+}
+
+}
+.filters-container {
+  background-color: #f8f9fa;
+  padding: 15px 20px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  display: flex;
+  flex-wrap: wrap; // Para que los filtros se ajusten en pantallas pequeñas
+  gap: 20px; // Espacio entre grupos de filtros
+  align-items: flex-end; // Alinea los elementos al final para que los botones queden bien
+
+  h3 {
+    width: 100%; // Que el título ocupe todo el ancho
+    margin: 0 0 15px 0;
+    color: #343a40;
+    font-size: 1.2em;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 10px;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column; // Etiqueta arriba, input abajo
+    gap: 5px; // Espacio entre etiqueta e input
+    flex-grow: 1; // Permite que los grupos crezcan para llenar el espacio
+    min-width: 150px; // Ancho mínimo para cada grupo de filtro
+
+    label {
+      font-size: 0.9em;
+      color: #495057;
+      font-weight: 500;
+    }
+
+    select, input[type="date"] {
+      padding: 8px 10px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      font-size: 0.95em;
+      background-color: #fff;
+      &:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+      }
+    }
+  }
+  .btn-outline {
+    padding: 8px 15px;
+    background-color: transparent;
+    color: #007bff;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      background-color: #007bff;
+      color: white;
+    }
+  }
+}
