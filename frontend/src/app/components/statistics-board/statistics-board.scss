@@ -1,0 +1,40 @@
+.statistics-container {
+  padding: 20px;
+  background-color: #f4f6f8; // Un fondo ligeramente diferente para la página de estadísticas
+  min-height: calc(100vh - 180px); // Ajustar según header/footer
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 1.8em;
+}
+
+.chart-wrapper {
+  max-width: 600px; // Ancho máximo del gráfico
+  height: 400px;    // Altura fija para el gráfico
+  margin: 20px auto; // Centrar el gráfico
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+
+  canvas {
+    width: 100% !important; // Asegura que el canvas use el ancho del wrapper
+    height: 100% !important; // Asegura que el canvas use la altura del wrapper
+  }
+}
+
+// @media (min-width: 992px) {
+//   .statistics-container {
+//     display: flex;
+//     flex-wrap: wrap;
+//     justify-content: space-around; // Para distribuir los gráficos si hay varios
+//   }
+//   .chart-wrapper {
+//     width: 45%; // Dos gráficos por fila en pantallas grandes
+//     max-width: none; // Quitar el max-width si se gestiona con el flex container
+//   }
+// }
