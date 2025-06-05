@@ -1,0 +1,42 @@
+header {
+  background-color: #333;
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    margin: 0;
+    font-size: 1.5em;
+  }
+
+  nav {
+    a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-size: 1em;
+
+      &:hover, &.active-link {
+        text-decoration: underline;
+        color: #4CAF50; // Un color para el enlace activo/hover
+      }
+    }
+  }
+}
+
+main {
+  padding: 20px;
+  min-height: calc(100vh - 160px); // Ajusta según el alto de tu header y footer
+}
+
+footer {
+  background-color: #f1f1f1;
+  text-align: center;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  position: relative; // O 'fixed' si quieres que esté siempre abajo
+  bottom: 0;
+  width: 100%;
+}
