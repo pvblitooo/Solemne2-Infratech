@@ -1,1 +1,88 @@
-<p>incident-form works!</p>
+<h2>{{ isEditMode ? 'Editar Incidente' : 'Registrar Nuevo Incidente' }}</h2>
+
+<form [formGroup]="incidentForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="type">Tipo de Incidente:</label>
+    <select id="type" formControlName="type"
+            [ngClass]="{ 'is-invalid': f['type'].touched && f['type'].errors }">
+      <option value="" disabled>Seleccione un tipo...</option>
+      <option *ngFor="let typeOpt of types" [value]="typeOpt">{{ typeOpt }}</option>
+    </select>
+    <div *ngIf="f['type'].touched && f['type'].errors?.['required']" class="invalid-feedback">
+      El tipo es requerido.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="area">Área Afectada:</label>
+    <select id="area" formControlName="area"
+            [ngClass]="{ 'is-invalid': f['area'].touched && f['area'].errors }">
+      <option value="" disabled>Seleccione un área...</option>
+      <option *ngFor="let areaOpt of areas" [value]="areaOpt">{{ areaOpt }}</option>
+    </select>
+    <div *ngIf="f['area'].touched && f['area'].errors?.['required']" class="invalid-feedback">
+      El área es requerida.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="description">Descripción Detallada:</label>
+    <textarea id="description" formControlName="description" rows="4"
+              [ngClass]="{ 'is-invalid': f['description'].touched && f['description'].errors }"></textarea>
+    <div *ngIf="f['description'].touched && f['description'].errors?.['required']" class="invalid-feedback">
+      La descripción es requerida.
+    </div>
+    <div *ngIf="f['description'].touched && f['description'].errors?.['minlength']" class="invalid-feedback">
+      La descripción debe tener al menos 10 caracteres.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="priority">Prioridad:</label>
+    <select id="priority" formControlName="priority"
+            [ngClass]="{ 'is-invalid': f['priority'].touched && f['priority'].errors }">
+      <option *ngFor="let prio of priorities" [value]="prio">{{ prio }}</option>
+    </select>
+    <div *ngIf="f['priority'].touched && f['priority'].errors?.['required']" class="invalid-feedback">
+      La prioridad es requerida.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="assignedTo">Asignar a Técnico (Opcional):</label>
+    <select id="assignedTo" formControlName="assignedTo">
+      <option value="">Sin asignar</option>
+      <option *ngFor="let tech of technicians$ | async" [value]="tech.name">{{ tech.name }} ({{ tech.specialty }})</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="status">Estado del Incidente:</label>
+    <select id="status" formControlName="status"
+            [ngClass]="{ 'is-invalid': f['status'].touched && f['status'].errors }">
+      <option *ngFor="let stat of statuses" [value]="stat">{{ stat }}</option>
+    </select>
+    <div *ngIf="f['status'].touched && f['status'].errors?.['required']" class="invalid-feedback">
+      El estado es requerido.
+    </div>
+  </div>
+
+  <div *ngIf="isEditMode && currentIncident" class="incident-info">
+    <h4>Información Adicional:</h4>
+    <p><strong>Fecha de Creación:</strong> {{ currentIncident.creationDate | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+    <p *ngIf="currentIncident.resolutionDate">
+      <strong>Fecha de Resolución:</strong> {{ currentIncident.resolutionDate | date:'dd/MM/yyyy HH:mm:ss' }}
+    </p>
+    <p *ngIf="currentIncident.resolutionTime">
+      <strong>Tiempo de Resolución:</strong> {{ currentIncident.resolutionTime }}
+    </p>
+  </div>
+
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary" [disabled]="incidentForm.invalid">
+      {{ isEditMode ? 'Actualizar Incidente' : 'Registrar Incidente' }}
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+  </div>
+</form>

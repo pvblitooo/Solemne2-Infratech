@@ -1,0 +1,140 @@
+form {
+  max-width: 700px; // Un poco más ancho
+  margin: 20px auto;
+  padding: 25px;
+  background: #fdfdfd; // Un blanco un poco más suave
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); // Sombra un poco más pronunciada
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  margin-bottom: 20px; // Más espacio entre grupos
+
+  label {
+    display: block;
+    margin-bottom: 8px; // Más espacio para la etiqueta
+    font-weight: 600; // Un poco más de peso
+    color: #444; // Color de etiqueta
+    font-size: 0.95em;
+  }
+
+  input[type="text"],
+  input[type="email"], // Si lo usaras
+  textarea,
+  select {
+    width: 100%;
+    padding: 12px; // Un poco más de padding
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+    &:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px; // Altura mínima para textarea
+  }
+
+  &.is-invalid select,
+  &.is-invalid textarea,
+  select.is-invalid, // Para ngClass
+  textarea.is-invalid { // Para ngClass
+    border-color: #dc3545 !important; // Asegurar que el borde rojo se muestre
+  }
+  // Adaptar para ngClass a nivel de control
+  select.ng-invalid.ng-touched,
+  textarea.ng-invalid.ng-touched {
+     border-color: #dc3545;
+  }
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875em;
+  margin-top: 5px; // Espacio para el mensaje de error
+  display: block; // Asegurar que ocupe su propia línea
+}
+
+.form-actions {
+  margin-top: 30px; // Más espacio antes de los botones
+  display: flex;
+  gap: 15px; // Más espacio entre botones
+  justify-content: flex-end; // Alinea los botones a la derecha
+
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500; // Peso normal para botones
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+
+    &:hover {
+      opacity: 0.9;
+    }
+    &:active {
+      transform: translateY(1px);
+    }
+
+    &.btn-primary {
+      background-color: #007bff;
+      color: white;
+      &:hover { background-color: #0056b3; }
+      &:disabled {
+        background-color: #6c757d; // Gris cuando está deshabilitado
+        cursor: not-allowed;
+        opacity: 0.65;
+      }
+    }
+
+    &.btn-secondary {
+      background-color: #6c757d;
+      color: white;
+      &:hover { background-color: #545b62; }
+    }
+  }
+}
+
+// Clase para el control cuando es inválido y ha sido tocado
+// (ngClass se aplica directamente al control)
+.is-invalid {
+  border-color: #dc3545 !important; // Forzar el borde rojo
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25) !important; // Sombra roja en focus
+  }
+}
+.incident-info {
+  margin-top: 25px;
+  padding: 15px;
+  background-color: #e9ecef; // Un fondo gris claro
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #343a40;
+  }
+  p {
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: #495057;
+    strong {
+      color: #212529;
+    }
+  }
+}
