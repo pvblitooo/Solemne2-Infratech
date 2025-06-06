@@ -47,14 +47,10 @@ table {
   &.baja { background-color: #17a2b8; }
 }
 
-// Estilo para la fila de un incidente vencido
+
 tr.overdue {
   background-color: #fff3cd !important; // Un amarillo pálido de advertencia
   // border-left: 4px solid #dc3545; // Un borde distintivo
-
-  // Opcional: hacer el texto un poco más oscuro para mejor contraste en el fondo amarillo
-  // color: #555;
-
   // Si quieres un icono o texto antes del ID para los vencidos:
   td:first-child::before {
     content: "⚠️ VENCIDO - ";
@@ -67,7 +63,7 @@ tr.overdue:hover {
   background-color: #ffeeba !important; // Un amarillo un poco más oscuro al hacer hover
 }
 
-// Enlaces de acción
+
 .action-link {
   text-decoration: none;
   padding: 4px 8px;
@@ -82,7 +78,7 @@ tr.overdue:hover {
       background-color: #117a8b;
     }
   }
-  // Aquí podrías definir estilos para otros enlaces/botones de acción
+  
 
 .report-actions {
   margin-bottom: 20px; // Espacio antes del título de la lista

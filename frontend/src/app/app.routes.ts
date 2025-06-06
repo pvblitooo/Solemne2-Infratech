@@ -6,8 +6,8 @@ import { StatisticsBoardComponent } from './components/statistics-board/statisti
 export const routes: Routes = [
     { path: '', redirectTo: 'incidents', pathMatch: 'full' },
   { path: 'incidents', component: IncidentListComponent, title: 'Lista de Incidentes' },
-  { path: 'incidents/new', component: IncidentFormComponent, title: 'Nuevo Incidente' }, // Ruta para crear
-  { path: 'incidents/edit/:id', component: IncidentFormComponent, title: 'Editar Incidente' }, // Ruta para editar (el :id es un parámetro)
-  { path: 'statistics', component: StatisticsBoardComponent, title: 'Estadísticas de Incidentes' }, // Ruta añadida
+  { path: 'incidents/new', component: IncidentFormComponent, title: 'Nuevo Incidente' }, 
+  { path: 'incidents/edit/:id', component: IncidentFormComponent, title: 'Editar Incidente' }, 
+  { path: 'statistics', component: StatisticsBoardComponent, title: 'Estadísticas de Incidentes' }, 
   { path: '**', redirectTo: 'incidents' }
 ];

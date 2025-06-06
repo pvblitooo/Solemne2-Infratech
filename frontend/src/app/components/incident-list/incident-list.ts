@@ -1,23 +1,22 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common'; 
-import { RouterModule } from '@angular/router'; // Para routerLink
+import { RouterModule } from '@angular/router'; 
 import { FormsModule } from '@angular/forms';
 import { Incident } from '../../models/incident';
 import { IncidentService } from '../../services/incident';
-import { Observable, Subject, combineLatest, BehaviorSubject } from 'rxjs'; // BehaviorSubject
-import { map, startWith, debounceTime, takeUntil, distinctUntilChanged, first } from 'rxjs/operators'; // Otros operadores
+import { Observable, Subject, combineLatest, BehaviorSubject } from 'rxjs'; 
+import { map, startWith, debounceTime, takeUntil, distinctUntilChanged, first } from 'rxjs/operators'; 
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';      // Para el input de fecha
+import { MatInputModule } from '@angular/material/input';      
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';          // Para el ícono de editar y PDF
-import { MatDatepickerModule } from '@angular/material/datepicker'; // Para un selector de fecha de Material
-import { MatNativeDateModule } from '@angular/material/core';       // Necesario para MatDatepicker
+import { MatIconModule } from '@angular/material/icon';          
+import { MatDatepickerModule } from '@angular/material/datepicker'; 
+import { MatNativeDateModule } from '@angular/material/core';      
 
 
 import jsPDF from 'jspdf';
-// Cambia la importación de jspdf-autotable para obtener la función directamente
-import autoTable, { HookData } from 'jspdf-autotable'; // <--- CAMBIO IMPORTANTE AQUÍ
+import autoTable, { HookData } from 'jspdf-autotable'; 
 
 
 
@@ -34,7 +33,7 @@ import autoTable, { HookData } from 'jspdf-autotable'; // <--- CAMBIO IMPORTANTE
     MatButtonModule,
     MatIconModule,
     MatDatepickerModule,
-    MatNativeDateModule // <--- Añadir
+    MatNativeDateModule 
   ],
   templateUrl: './incident-list.html',
   styleUrl: './incident-list.scss',
@@ -42,26 +41,25 @@ import autoTable, { HookData } from 'jspdf-autotable'; // <--- CAMBIO IMPORTANTE
 })
 export class IncidentListComponent implements OnInit, OnDestroy {
   private incidentService = inject(IncidentService);
-  private datePipe = inject(DatePipe); // Inyectar DatePipe para usarlo en el filtro de fecha
+  private datePipe = inject(DatePipe); 
   private destroy$ = new Subject<void>();
 
   allIncidents$!: Observable<Incident[]>;
-  filteredIncidents$!: Observable<Incident[]>; // Será inicializado en ngOnInit
+  filteredIncidents$!: Observable<Incident[]>; 
 
-  // BehaviorSubjects para los filtros
   filterType$ = new BehaviorSubject<string>('');
-  filterArea$ = new BehaviorSubject<string>(''); // Filtro adicional por área
+  filterArea$ = new BehaviorSubject<string>(''); 
   filterStatus$ = new BehaviorSubject<string>('');
   filterPriority$ = new BehaviorSubject<string>('');
-  filterDate$ = new BehaviorSubject<string>(''); // Formato YYYY-MM-DD
+  filterDate$ = new BehaviorSubject<string>(''); 
 
-  // Opciones para los selectores de filtro (podrían venir del servicio o ser dinámicas)
+  // Opciones para los selectores de filtro 
   types: string[] = ['Hardware', 'Software', 'Red', 'Otro'];
   areas: string[] = ['Ventas', 'Operaciones', 'TI Interna', 'Recursos Humanos', 'Finanzas'];
   statuses: string[] = ['Nuevo', 'En Proceso', 'Resuelto'];
   priorities: string[] = ['Alta', 'Media', 'Baja'];
 
-  // Propiedades para ngModel (vinculación bidireccional con los inputs del template)
+  // Propiedades para ngModel 
   currentFilterType: string = '';
   currentFilterArea: string = '';
   currentFilterStatus: string = '';
@@ -84,7 +82,7 @@ const testDoc = new jsPDF();
       this.filterDate$.pipe(startWith(''), debounceTime(300), distinctUntilChanged())
     ]).pipe(
       map(([incidents, type, area, status, priority, date]) => {
-        console.log('Filtrando con:', { type, area, status, priority, date }); // Para depuración
+        console.log('Filtrando con:', { type, area, status, priority, date }); 
         return incidents.filter(incident =>
           (type ? incident.type.toLowerCase().includes(type.toLowerCase()) : true) &&
           (area ? incident.area.toLowerCase().includes(area.toLowerCase()) : true) &&
@@ -102,13 +100,13 @@ const testDoc = new jsPDF();
   onFilterAreaChange(value: string): void { this.filterArea$.next(value); }
   onFilterStatusChange(value: string): void { this.filterStatus$.next(value); }
   onFilterPriorityChange(value: string): void { this.filterPriority$.next(value); }
-  onFilterDateChange(value: string | null): void { // El input date puede devolver null
-    this.filterDate$.next(value || ''); // Enviar string vacío si es null
+  onFilterDateChange(value: string | null): void { 
+    this.filterDate$.next(value || ''); 
   }
 
   private isSameDate(incidentCreationDate: Date, filterDateStr: string): boolean {
-    if (!filterDateStr) return true; // Si no hay fecha de filtro, no filtrar por fecha
-    // El input date devuelve 'YYYY-MM-DD'. Necesitamos comparar solo la parte de la fecha.
+    if (!filterDateStr) return true; 
+    
     const incidentDateFormatted = this.datePipe.transform(incidentCreationDate, 'yyyy-MM-dd');
     return incidentDateFormatted === filterDateStr;
   }
@@ -139,8 +137,7 @@ const testDoc = new jsPDF();
 
     try {
       console.log('Iniciando creación de PDF...');
-      // Ya no necesitas el cast "as jsPDFWithAutoTable"
-      const doc = new jsPDF(); // <--- CAMBIO: Quitar el cast
+      const doc = new jsPDF(); 
       const reportDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm');
       const reportTitle = `Informe de Incidentes Técnicos - InfraTech S.A.`;
       const generatedOn = `Generado el: ${reportDate}`;
@@ -151,14 +148,14 @@ const testDoc = new jsPDF();
       doc.setTextColor(100);
       doc.text(generatedOn, 14, 30);
 
-      const head = [[/* ... tus cabeceras ... */]];
-      const body = incidentsToReport.map(inc => [/* ... tus datos de fila ... */]);
+      const head = [[]];
+      const body = incidentsToReport.map(inc => []);
 
       console.log('Cabeceras (head):', head);
       console.log('Cuerpo (body):', body);
 
-      // --- CAMBIO IMPORTANTE EN CÓMO SE LLAMA A autoTable ---
-      autoTable(doc, { // <--- AQUÍ EL CAMBIO
+      
+      autoTable(doc, { 
         startY: 38,
         head: head,
         body: body,
@@ -177,7 +174,7 @@ const testDoc = new jsPDF();
           doc.text('Página ' + pageNum, data.settings.margin.left, doc.internal.pageSize.height - 10);
         }
       });
-      // --- FIN DEL CAMBIO ---
+      
 
       const fileName = `Reporte_Incidentes_${this.datePipe.transform(new Date(), 'yyyyMMdd_HHmmss')}.pdf`;
       console.log('Intentando guardar PDF con nombre:', fileName);

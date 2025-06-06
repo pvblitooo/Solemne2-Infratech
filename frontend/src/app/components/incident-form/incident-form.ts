@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // Para formularios reactivos
-import { Router, ActivatedRoute, RouterModule } from '@angular/router'; // Router para navegar, ActivatedRoute para params, RouterModule para routerLink (si se usa en el template)
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; 
+import { Router, ActivatedRoute, RouterModule } from '@angular/router'; 
 import { IncidentService } from '../../services/incident';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Incident, Technician } from '../../models/incident';
@@ -14,22 +14,22 @@ import { Incident, Technician } from '../../models/incident';
   styleUrl: './incident-form.scss',
   providers: [DatePipe]
 })
-export class IncidentFormComponent implements OnInit, OnDestroy { // Implementar OnDestroy
+export class IncidentFormComponent implements OnInit, OnDestroy { 
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private incidentService = inject(IncidentService);
-  private destroy$ = new Subject<void>(); // Subject para desuscripciones
+  private destroy$ = new Subject<void>(); 
 
   incidentForm!: FormGroup;
   isEditMode = false;
   incidentId: string | null = null;
-  currentIncident: Incident | undefined; // Para guardar el incidente actual en modo edición
+  currentIncident: Incident | undefined; 
 
   types: string[] = ['Hardware', 'Software', 'Red', 'Otro'];
   areas: string[] = ['Ventas', 'Operaciones', 'TI Interna', 'Recursos Humanos', 'Finanzas'];
   priorities: string[] = ['Alta', 'Media', 'Baja'];
-  statuses: string[] = ['Nuevo', 'En Proceso', 'Resuelto']; // Opciones para el estado
+  statuses: string[] = ['Nuevo', 'En Proceso', 'Resuelto']; 
   technicians$!: Observable<Technician[]>;
 
   ngOnInit(): void {
@@ -41,11 +41,11 @@ export class IncidentFormComponent implements OnInit, OnDestroy { // Implementar
       description: ['', [Validators.required, Validators.minLength(10)]],
       priority: ['Media', Validators.required],
       assignedTo: [''],
-      status: ['Nuevo', Validators.required] // Añadir control de estado, requerido
+      status: ['Nuevo', Validators.required] 
     });
 
     this.route.paramMap.pipe(
-      takeUntil(this.destroy$) // Desuscribirse cuando el componente se destruya
+      takeUntil(this.destroy$) 
     ).subscribe(params => {
       this.incidentId = params.get('id');
       if (this.incidentId) {
@@ -53,8 +53,8 @@ export class IncidentFormComponent implements OnInit, OnDestroy { // Implementar
         this.loadIncidentData(this.incidentId);
       } else {
         this.isEditMode = false;
-        // Asegurar que el estado por defecto sea 'Nuevo' y no editable al crear
-        this.incidentForm.get('status')?.disable(); // Deshabilitar campo status al crear
+        
+        this.incidentForm.get('status')?.disable(); 
       }
     });
   }
@@ -64,7 +64,7 @@ export class IncidentFormComponent implements OnInit, OnDestroy { // Implementar
       takeUntil(this.destroy$)
     ).subscribe(incident => {
       if (incident) {
-        this.currentIncident = incident; // Guardar el incidente original
+        this.currentIncident = incident; 
         this.incidentForm.patchValue({
           type: incident.type,
           area: incident.area,
@@ -73,10 +73,10 @@ export class IncidentFormComponent implements OnInit, OnDestroy { // Implementar
           assignedTo: incident.assignedTo || '',
           status: incident.status
         });
-        this.incidentForm.get('status')?.enable(); // Habilitar campo status al editar
+        this.incidentForm.get('status')?.enable(); 
       } else {
         console.error('Incidente no encontrado para editar, ID:', id);
-        this.router.navigate(['/incidents']); // Redirigir si no se encuentra
+        this.router.navigate(['/incidents']); 
       }
     });
   }
@@ -94,13 +94,13 @@ export class IncidentFormComponent implements OnInit, OnDestroy { // Implementar
     if (this.isEditMode && this.currentIncident) {
       // Lógica para ACTUALIZAR
       const updatedIncident: Incident = {
-        ...this.currentIncident, // Mantiene id, creationDate y otras props no editables directamente
+        ...this.currentIncident, 
         type: formValue.type,
         area: formValue.area,
         description: formValue.description,
         priority: formValue.priority,
         assignedTo: formValue.assignedTo || undefined,
-        status: formValue.status // El servicio se encarga de resolutionDate y resolutionTime
+        status: formValue.status 
       };
 
       this.incidentService.updateIncident(updatedIncident).subscribe({
@@ -110,7 +110,7 @@ export class IncidentFormComponent implements OnInit, OnDestroy { // Implementar
             this.router.navigate(['/incidents']);
           } else {
             console.error('Fallo al actualizar incidente, no se encontró en el servicio.');
-            // Mostrar error al usuario
+            
           }
         },
         error: (err) => console.error('Error al actualizar incidente:', err)
@@ -139,7 +139,7 @@ export class IncidentFormComponent implements OnInit, OnDestroy { // Implementar
     this.router.navigate(['/incidents']);
   }
 
-  ngOnDestroy(): void { // Implementar ngOnDestroy
+  ngOnDestroy(): void { 
     this.destroy$.next();
     this.destroy$.complete();
   }

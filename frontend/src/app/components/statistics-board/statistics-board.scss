@@ -22,19 +22,8 @@ h2 {
   border: 1px solid #e0e0e0;
 
   canvas {
-    width: 100% !important; // Asegura que el canvas use el ancho del wrapper
-    height: 100% !important; // Asegura que el canvas use la altura del wrapper
+    width: 100% !important; 
+    height: 100% !important; 
   }
 }
 
-// @media (min-width: 992px) {
-//   .statistics-container {
-//     display: flex;
-//     flex-wrap: wrap;
-//     justify-content: space-around; // Para distribuir los gráficos si hay varios
-//   }
-//   .chart-wrapper {
-//     width: 45%; // Dos gráficos por fila en pantallas grandes
-//     max-width: none; // Quitar el max-width si se gestiona con el flex container
-//   }
-// }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router'; // Importa los módulos de enrutamiento
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router'; 
 
 @Component({
   selector: 'app-root',
