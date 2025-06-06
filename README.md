@@ -47,3 +47,6 @@ Para construir y ejecutar la aplicación utilizando Docker, sigue estos pasos:
     docker run -p 8080:80 infratech-frontend
     ```
     La aplicación estará disponible en `http://localhost:8080`.
+
+## Creditos
+Realizado por Pablo Morales, Benjamín Iturra y Benjamín Senler.
