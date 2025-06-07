@@ -15,10 +15,6 @@ table {
     font-weight: bold;
   }
 
-  tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-
   tbody tr:hover {
     background-color: #e9e9e9;
   }
@@ -47,6 +43,22 @@ table {
   &.baja { background-color: #17a2b8; }
 }
 
+tr {
+  // Si la fila tiene un elemento con la clase .alta
+  &:has(.priority.alta) {
+    background-color: #ffc6cf; // Un rojo muy pálido
+  }
+
+  // Si la fila tiene un elemento con la clase .media
+  &:has(.priority.media) {
+    background-color: #ffd6a0; // Un naranjo muy pálido
+  }
+
+  // Si la fila tiene un elemento con la clase .baja
+  &:has(.priority.baja) {
+    background-color: #b4f7ff; // Un celeste muy pálido
+  }
+}
 
 tr.overdue {
   background-color: #fff3cd !important; // Un amarillo pálido de advertencia
@@ -115,7 +127,7 @@ tr.overdue:hover {
 
 }
 .filters-container {
-  background-color: #f8f9fa;
+  background-color: #e9e9e9;
   padding: 15px 20px;
   margin-bottom: 25px;
   border-radius: 8px;
