@@ -1,10 +1,10 @@
 form {
-  max-width: 700px; // Un poco más ancho
+  max-width: 700px; 
   margin: 20px auto;
   padding: 25px;
-  background: #e4e4e4; // Un blanco un poco más suave
+  background: #e4e4e4; 
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1); // Sombra un poco más pronunciada
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
 }
 
 h2 {
@@ -14,22 +14,22 @@ h2 {
 }
 
 .form-group {
-  margin-bottom: 20px; // Más espacio entre grupos
+  margin-bottom: 20px; 
 
   label {
     display: block;
-    margin-bottom: 8px; // Más espacio para la etiqueta
-    font-weight: 600; // Un poco más de peso
-    color: #444; // Color de etiqueta
+    margin-bottom: 8px; 
+    font-weight: 600; 
+    color: #444; 
     font-size: 0.95em;
   }
 
   input[type="text"],
-  input[type="email"], // Si lo usaras
+  input[type="email"], 
   textarea,
   select {
     width: 100%;
-    padding: 12px; // Un poco más de padding
+    padding: 12px; 
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
@@ -45,16 +45,16 @@ h2 {
 
   textarea {
     resize: vertical;
-    min-height: 100px; // Altura mínima para textarea
+    min-height: 100px; 
   }
 
   &.is-invalid select,
   &.is-invalid textarea,
-  select.is-invalid, // Para ngClass
-  textarea.is-invalid { // Para ngClass
-    border-color: #dc3545 !important; // Asegurar que el borde rojo se muestre
+  select.is-invalid, 
+  textarea.is-invalid { 
+    border-color: #dc3545 !important; 
   }
-  // Adaptar para ngClass a nivel de control
+ 
   select.ng-invalid.ng-touched,
   textarea.ng-invalid.ng-touched {
      border-color: #dc3545;
@@ -64,15 +64,15 @@ h2 {
 .invalid-feedback {
   color: #dc3545;
   font-size: 0.875em;
-  margin-top: 5px; // Espacio para el mensaje de error
-  display: block; // Asegurar que ocupe su propia línea
+  margin-top: 5px;
+  display: block; 
 }
 
 .form-actions {
-  margin-top: 30px; // Más espacio antes de los botones
+  margin-top: 30px; 
   display: flex;
-  gap: 15px; // Más espacio entre botones
-  justify-content: flex-end; // Alinea los botones a la derecha
+  gap: 15px; 
+  justify-content: flex-end; 
 
   .btn {
     padding: 10px 20px;
@@ -80,7 +80,7 @@ h2 {
     border-radius: 4px;
     cursor: pointer;
     font-size: 1em;
-    font-weight: 500; // Peso normal para botones
+    font-weight: 500; 
     transition: background-color 0.2s ease-in-out, transform 0.1s ease;
 
     &:hover {
@@ -95,7 +95,7 @@ h2 {
       color: white;
       &:hover { background-color: #0056b3; }
       &:disabled {
-        background-color: #6c757d; // Gris cuando está deshabilitado
+        background-color: #6c757d; 
         cursor: not-allowed;
         opacity: 0.65;
       }
@@ -109,18 +109,17 @@ h2 {
   }
 }
 
-// Clase para el control cuando es inválido y ha sido tocado
-// (ngClass se aplica directamente al control)
+
 .is-invalid {
-  border-color: #dc3545 !important; // Forzar el borde rojo
+  border-color: #dc3545 !important;
   &:focus {
-    box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25) !important; // Sombra roja en focus
+    box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25) !important; 
   }
 }
 .incident-info {
   margin-top: 25px;
   padding: 15px;
-  background-color: #e9ecef; // Un fondo gris claro
+  background-color: #e9ecef; 
   border-radius: 4px;
   border: 1px solid #ced4da;
 

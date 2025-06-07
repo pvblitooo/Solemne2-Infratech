@@ -20,7 +20,7 @@ header {
 
       &:hover, &.active-link {
         text-decoration: underline;
-        color: #c0392b; // Un color para el enlace activo/hover
+        color: #c0392b; 
       }
     }
   }
@@ -30,7 +30,7 @@ main {
   color: #2d3436;
   padding: 20px;
   background-color: #ffffff;
-  min-height: calc(100vh - 160px); // Ajusta según el alto de tu header y footer
+  min-height: calc(100vh - 160px); 
 }
 
 footer {
@@ -38,7 +38,7 @@ footer {
   background-color: #2d3436;
   text-align: center;
   padding: 10px;
-  position: relative; // O 'fixed' si quieres que esté siempre abajo
+  position: relative; 
   bottom: 0;
   width: 100%;
 }

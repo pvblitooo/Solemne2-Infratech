@@ -5,9 +5,9 @@ table {
 
   th, td {
     border: 1px solid #ddd;
-    padding: 10px; // Ajustar padding si es necesario
+    padding: 10px; 
     text-align: left;
-    vertical-align: top; // Buen alineamiento para descripciones largas
+    vertical-align: top; 
   }
 
   th {
@@ -44,35 +44,33 @@ table {
 }
 
 tr {
-  // Si la fila tiene un elemento con la clase .alta
+  
   &:has(.priority.alta) {
-    background-color: #ffc6cf; // Un rojo muy pálido
+    background-color: #ffc6cf; 
   }
 
-  // Si la fila tiene un elemento con la clase .media
+  
   &:has(.priority.media) {
-    background-color: #ffd6a0; // Un naranjo muy pálido
+    background-color: #ffd6a0; 
   }
 
-  // Si la fila tiene un elemento con la clase .baja
+  
   &:has(.priority.baja) {
-    background-color: #b4f7ff; // Un celeste muy pálido
+    background-color: #b4f7ff;
   }
 }
 
 tr.overdue {
-  background-color: #fff3cd !important; // Un amarillo pálido de advertencia
-  // border-left: 4px solid #dc3545; // Un borde distintivo
-  // Si quieres un icono o texto antes del ID para los vencidos:
+  background-color: #fff3cd !important; 
   td:first-child::before {
     content: "⚠️ VENCIDO - ";
-    color: #b96f00; // Un color naranja oscuro/marrón
+    color: #b96f00; 
     font-weight: bold;
     margin-right: 4px;
   }
 }
 tr.overdue:hover {
-  background-color: #ffeeba !important; // Un amarillo un poco más oscuro al hacer hover
+  background-color: #ffeeba !important;
 }
 
 
@@ -81,10 +79,10 @@ tr.overdue:hover {
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.9em;
-  margin-right: 5px; // Espacio entre botones si hay más
+  margin-right: 5px; 
 
   &.edit-link {
-    background-color: #17a2b8; // Un color cian/turquesa
+    background-color: #17a2b8; 
     color: white;
     &:hover {
       background-color: #117a8b;
@@ -93,11 +91,11 @@ tr.overdue:hover {
   
 
 .report-actions {
-  margin-bottom: 20px; // Espacio antes del título de la lista
-  text-align: right; // Alinea el botón a la derecha
+  margin-bottom: 20px; 
+  text-align: right; 
 
   .btn-success {
-    background-color: #28a745; // Verde
+    background-color: #28a745; 
     color: white;
     padding: 10px 15px;
     border: none;
@@ -110,15 +108,14 @@ tr.overdue:hover {
       background-color: #218838;
     }
 
-    .icon-pdf { // Estilo para un ícono simple (puedes usar una librería de íconos)
+    .icon-pdf { 
       margin-right: 8px;
-      // Si usas FontAwesome, por ejemplo: content: "\f1c1"; font-family: "Font Awesome 5 Free"; font-weight: 900;
-      // Para un ícono CSS simple:
+      
       display: inline-block;
       width: 12px;
       height: 14px;
-      background-color: currentColor; // Usa el color del texto (blanco)
-      clip-path: polygon(0 0, 70% 0, 100% 20%, 100% 100%, 0 100%); // Forma de documento
+      background-color: currentColor; 
+      clip-path: polygon(0 0, 70% 0, 100% 20%, 100% 100%, 0 100%); 
       position: relative;
       top: 1px;
     }
@@ -133,12 +130,12 @@ tr.overdue:hover {
   border-radius: 8px;
   border: 1px solid #e9ecef;
   display: flex;
-  flex-wrap: wrap; // Para que los filtros se ajusten en pantallas pequeñas
-  gap: 20px; // Espacio entre grupos de filtros
-  align-items: flex-end; // Alinea los elementos al final para que los botones queden bien
+  flex-wrap: wrap; 
+  gap: 20px; 
+  align-items: flex-end; 
 
   h3 {
-    width: 100%; // Que el título ocupe todo el ancho
+    width: 100%; 
     margin: 0 0 15px 0;
     color: #343a40;
     font-size: 1.2em;
@@ -148,10 +145,10 @@ tr.overdue:hover {
 
   .filter-group {
     display: flex;
-    flex-direction: column; // Etiqueta arriba, input abajo
-    gap: 5px; // Espacio entre etiqueta e input
-    flex-grow: 1; // Permite que los grupos crezcan para llenar el espacio
-    min-width: 150px; // Ancho mínimo para cada grupo de filtro
+    flex-direction: column; 
+    gap: 5px; 
+    flex-grow: 1; 
+    min-width: 150px; 
 
     label {
       font-size: 0.9em;
