@@ -10,6 +10,8 @@ El frontend está desarrollado utilizando el framework Angular.
 
 ## Prerrequisitos
 Asegúrate de tener instalado el siguiente software en tu máquina local:
+- Python
+- Django
 - Node.js (versión 18.x o superior recomendada)
 - Angular CLI
 - Docker (para ejecución en contenedores)
@@ -25,11 +27,15 @@ Sigue estos pasos para ejecutar la aplicación en tu entorno de desarrollo local
 
 2. Instalar dependencias:
     ```bash
+    pip install django
+    pip install djangorestframework
+    pip install django-cors-headers
     npm install
     ```
 
-3. Iniciar el servidor de desarrollo:
+3. Iniciar los servidores de desarrollo:
     ```bash
+    python manage.py runserver
     ng serve
     ```
     Navega a `http://localhost:4200/`. La aplicación se recargará automáticamente si cambias alguno de los archivos fuente. 
