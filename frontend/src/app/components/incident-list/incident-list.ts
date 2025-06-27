@@ -5,14 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Incident } from '../../models/incident';
 import { IncidentService } from '../../services/incident';
 import { Observable, Subject, combineLatest, BehaviorSubject } from 'rxjs'; 
-import { map, startWith, debounceTime, takeUntil, distinctUntilChanged, first } from 'rxjs/operators'; 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';      
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';          
-import { MatDatepickerModule } from '@angular/material/datepicker'; 
-import { MatNativeDateModule } from '@angular/material/core';      
+import { map, startWith, debounceTime, takeUntil, distinctUntilChanged, first, switchMap } from 'rxjs/operators';     
 
 
 import jsPDF from 'jspdf';
@@ -27,13 +20,6 @@ import autoTable, { HookData } from 'jspdf-autotable';
     RouterModule, 
     DatePipe, 
     FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDatepickerModule,
-    MatNativeDateModule 
   ],
   templateUrl: './incident-list.html',
   styleUrl: './incident-list.scss',
@@ -71,27 +57,21 @@ export class IncidentListComponent implements OnInit, OnDestroy {
 const testDoc = new jsPDF();
   
 
-    this.allIncidents$ = this.incidentService.getIncidents();
-
     this.filteredIncidents$ = combineLatest([
-      this.allIncidents$,
-      this.filterType$.pipe(startWith(''), debounceTime(300), distinctUntilChanged()),
-      this.filterArea$.pipe(startWith(''), debounceTime(300), distinctUntilChanged()),
-      this.filterStatus$.pipe(startWith(''), debounceTime(300), distinctUntilChanged()),
-      this.filterPriority$.pipe(startWith(''), debounceTime(300), distinctUntilChanged()),
-      this.filterDate$.pipe(startWith(''), debounceTime(300), distinctUntilChanged())
+      this.filterType$.pipe(startWith(''), distinctUntilChanged()),
+      this.filterArea$.pipe(startWith(''), distinctUntilChanged()),
+      this.filterStatus$.pipe(startWith(''), distinctUntilChanged()),
+      this.filterPriority$.pipe(startWith(''), distinctUntilChanged()),
+      this.filterDate$.pipe(startWith(''), distinctUntilChanged())
     ]).pipe(
-      map(([incidents, type, area, status, priority, date]) => {
-        console.log('Filtrando con:', { type, area, status, priority, date }); 
-        return incidents.filter(incident =>
-          (type ? incident.type.toLowerCase().includes(type.toLowerCase()) : true) &&
-          (area ? incident.area.toLowerCase().includes(area.toLowerCase()) : true) &&
-          (status ? incident.status === status : true) &&
-          (priority ? incident.priority === priority : true) &&
-          (date ? this.isSameDate(incident.creationDate, date) : true)
-        );
+      debounceTime(300), // Esperar 300ms después del último cambio de filtro
+      switchMap(([type, area, status, priority, date]) => {
+        // Construye un objeto de filtros solo con los valores que no están vacíos
+        const filters = { type, area, status, priority, date };
+        // Llama al servicio con los filtros actuales
+        return this.incidentService.getIncidents(filters);
       }),
-      takeUntil(this.destroy$)
+      takeUntil(this.destroy$) // Desuscribirse al destruir el componente
     );
   }
 
@@ -114,12 +94,12 @@ const testDoc = new jsPDF();
   isOverdue(incident: Incident): boolean {
     if (incident.status === 'Resuelto') return false;
     const fortyEightHoursInMs = 48 * 60 * 60 * 1000;
-    const creationTime = new Date(incident.creationDate).getTime();
+    const creationTime = new Date(incident.creation_date).getTime();
     const currentTime = Date.now();
     return (currentTime - creationTime) > fortyEightHoursInMs;
   }
 
-  generatePdfReport(): void {
+generatePdfReport(): void {
   console.log('generatePdfReport Clickeado!');
 
   this.filteredIncidents$.pipe(
@@ -137,7 +117,7 @@ const testDoc = new jsPDF();
 
     try {
       console.log('Iniciando creación de PDF...');
-      const doc = new jsPDF(); 
+      const doc = new jsPDF();
       const reportDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm');
       const reportTitle = `Informe de Incidentes Técnicos - InfraTech S.A.`;
       const generatedOn = `Generado el: ${reportDate}`;
@@ -148,25 +128,41 @@ const testDoc = new jsPDF();
       doc.setTextColor(100);
       doc.text(generatedOn, 14, 30);
 
-      const head = [[]];
-      const body = incidentsToReport.map(inc => []);
+      // --- CORRECCIÓN: Definimos las cabeceras de la tabla ---
+      const head = [[
+        'ID', 'Tipo', 'Área', 'Descripción', 'Estado',
+        'Prioridad', 'F. Creación', 'Asignado', 'F. Resolución', 'T. Resolución'
+      ]];
+
+      // --- CORRECCIÓN: Llenamos el cuerpo de la tabla con los datos de cada incidente ---
+      const body = incidentsToReport.map(inc => [
+        inc.id.substring(0, 8),
+        inc.type,
+        inc.area,
+        inc.description.substring(0, 35) + (inc.description.length > 35 ? '...' : ''),
+        inc.status,
+        inc.priority,
+        this.datePipe.transform(inc.creation_date, 'dd/MM/yy HH:mm') || 'N/A',
+        inc.assigned_to_name || 'N/A',
+        inc.resolution_date ? (this.datePipe.transform(inc.resolution_date, 'dd/MM/yy HH:mm') || 'N/A') : 'N/A',
+        inc.resolution_time || 'N/A'
+      ]);
 
       console.log('Cabeceras (head):', head);
       console.log('Cuerpo (body):', body);
 
-      
-      autoTable(doc, { 
+      autoTable(doc, {
         startY: 38,
         head: head,
         body: body,
         theme: 'striped',
-        headStyles: { fillColor: [41, 128, 185], textColor: [255,255,255] },
+        headStyles: { fillColor: [41, 128, 185], textColor: [255, 255, 255] },
         margin: { top: 10, right: 14, bottom: 10, left: 14 },
         tableWidth: 'auto',
         styles: { fontSize: 8, cellPadding: 2 },
         columnStyles: {
-          0: { cellWidth: 18 },
-          3: { cellWidth: 40 },
+          0: { cellWidth: 18 }, // ID
+          3: { cellWidth: 40 }, // Descripción
         },
         didDrawPage: (data: HookData) => {
           doc.setFontSize(10);
@@ -174,7 +170,6 @@ const testDoc = new jsPDF();
           doc.text('Página ' + pageNum, data.settings.margin.left, doc.internal.pageSize.height - 10);
         }
       });
-      
 
       const fileName = `Reporte_Incidentes_${this.datePipe.transform(new Date(), 'yyyyMMdd_HHmmss')}.pdf`;
       console.log('Intentando guardar PDF con nombre:', fileName);
@@ -187,6 +182,7 @@ const testDoc = new jsPDF();
     }
   });
 }
+
 
   ngOnDestroy(): void {
     this.destroy$.next();

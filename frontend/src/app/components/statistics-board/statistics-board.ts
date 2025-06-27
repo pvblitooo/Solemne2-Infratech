@@ -21,18 +21,18 @@ export class StatisticsBoardComponent implements OnInit, AfterViewInit, OnDestro
   @ViewChild('incidentsByStateChartCanvas') incidentsByStateChartCanvas!: ElementRef<HTMLCanvasElement>;
   incidentsByStateChart: Chart | undefined;
 
-  
-
   ngOnInit(): void {
-    
+    // No es necesario hacer nada aquí, lo manejamos en ngAfterViewInit
   }
 
   ngAfterViewInit(): void {
-    
-    this.incidentService.incidents$.pipe(
+    // Corregido: Llamamos al método getIncidents() en lugar de suscribirnos a una propiedad.
+    // getIncidents() sin argumentos traerá todos los incidentes.
+    this.incidentService.getIncidents().pipe(
       takeUntil(this.destroy$)
-    ).subscribe(incidents => {
-      if (incidents && this.incidentsByStateChartCanvas) { 
+    // Corregido: Tipamos explícitamente el parámetro 'incidents'
+    ).subscribe((incidents: Incident[]) => {
+      if (incidents && this.incidentsByStateChartCanvas) {
         this.createOrUpdateIncidentsByStateChart(incidents);
       }
     });
@@ -53,26 +53,25 @@ export class StatisticsBoardComponent implements OnInit, AfterViewInit, OnDestro
     const labels = Object.keys(counts);
     const dataValues = Object.values(counts);
 
-    
     if (this.incidentsByStateChart) {
       this.incidentsByStateChart.destroy();
     }
 
     this.incidentsByStateChart = new Chart(ctx, {
-      type: 'doughnut', 
+      type: 'doughnut',
       data: {
         labels: labels,
         datasets: [{
           label: 'Incidentes por Estado',
           data: dataValues,
-          backgroundColor: [ 
-            'rgba(0, 123, 255, 0.7)',  
-            'rgba(255, 193, 7, 0.7)', 
-            'rgba(40, 167, 69, 0.7)',  
-            'rgba(220, 53, 69, 0.7)', 
+          backgroundColor: [
+            'rgba(0, 123, 255, 0.7)',  // Nuevo
+            'rgba(255, 193, 7, 0.7)', // En Proceso
+            'rgba(40, 167, 69, 0.7)',  // Resuelto
+            'rgba(220, 53, 69, 0.7)',
             'rgba(108, 117, 125, 0.7)'
           ],
-          borderColor: [ 
+          borderColor: [
             'rgba(0, 123, 255, 1)',
             'rgba(255, 193, 7, 1)',
             'rgba(40, 167, 69, 1)',
@@ -84,10 +83,10 @@ export class StatisticsBoardComponent implements OnInit, AfterViewInit, OnDestro
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false, 
+        maintainAspectRatio: false,
         plugins: {
           legend: {
-            position: 'top', 
+            position: 'top',
           },
           title: {
             display: true,

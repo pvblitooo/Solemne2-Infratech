@@ -5,14 +5,15 @@ export interface Incident {
   description: string;
   status: 'Nuevo' | 'En Proceso' | 'Resuelto';
   priority: 'Alta' | 'Media' | 'Baja';
-  creationDate: Date;
-  resolutionDate?: Date;
-  assignedTo?: string;
-  resolutionTime?: string;
+  creation_date: Date; // <-- CAMBIO
+  resolution_date?: Date; // <-- CAMBIO
+  assigned_to?: number; // El ID del técnico ahora será un número (la clave primaria de Django)
+  assigned_to_name?: string; // Propiedad de solo lectura que viene del serializer
+  resolution_time?: string; // <-- CAMBIO
 }
 
 export interface Technician {
-  id: string;
+  id: number; // El ID ahora es un número
   name: string;
   specialty: string;
 }

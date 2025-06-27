@@ -57,14 +57,11 @@
           <th>ID (corto)</th>
           <th>Tipo</th>
           <th>Área</th>
-          <th>Descripción (corta)</th>
+          <th>Descripción</th>
           <th>Estado</th>
           <th>Prioridad</th>
-          <th>Fecha Creación</th>
-          <th>Asignado a</th>
-          <th>Fecha Resolución</th>
-          <th>Tiempo Resolución</th>
-          <th>Acciones</th>
+          <th>Fecha Creación</th>      <th>Asignado a</th>
+          <th>Fecha Resolución</th>    <th>Tiempo Resolución</th>   <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -72,7 +69,7 @@
           <td>{{ incident.id | slice:0:8 }}...</td>
           <td>{{ incident.type }}</td>
           <td>{{ incident.area }}</td>
-          <td>{{ incident.description | slice:0:40 }}{{ incident.description.length > 40 ? '...' : '' }}</td>
+          <td>{{ incident.description | slice:0:40 }}...</td>
           <td>
             <span class="status" [ngClass]="incident.status.toLowerCase().replace(' ', '-')">
               {{ incident.status }}
@@ -83,10 +80,10 @@
               {{ incident.priority }}
             </span>
           </td>
-          <td>{{ incident.creationDate | date:'dd/MM/yyyy HH:mm' }}</td>
-          <td>{{ incident.assignedTo || 'No asignado' }}</td>
-          <td>{{ incident.resolutionDate ? (incident.resolutionDate | date:'dd/MM/yyyy HH:mm') : 'N/A' }}</td>
-          <td>{{ incident.resolutionTime || 'N/A' }}</td>
+          <td>{{ incident.creation_date | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ incident.assigned_to_name || 'No asignado' }}</td>
+      <td>{{ incident.resolution_date ? (incident.resolution_date | date:'dd/MM/yyyy HH:mm') : 'N/A' }}</td>
+          <td>{{ incident.resolution_time || 'N/A' }}</td>
           <td>
             <a [routerLink]="['/incidents/edit', incident.id]" class="action-link edit-link">Editar</a>
           </td>

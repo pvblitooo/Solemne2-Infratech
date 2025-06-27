@@ -10,7 +10,20 @@ class Technician(models.Model):
         return self.name
 
 class Incident(models.Model):
-    # Definimos las opciones para los campos con choices
+    # --- CAMBIO: Definimos las opciones permitidas aquí ---
+    TYPE_CHOICES = [
+        ('Hardware', 'Hardware'),
+        ('Software', 'Software'),
+        ('Red', 'Red'),
+    ]
+    AREA_CHOICES = [
+        ('Ventas', 'Ventas'),
+        ('Operaciones', 'Operaciones'),
+        ('TI Interna', 'TI Interna'),
+        ('Recursos Humanos', 'Recursos Humanos'),
+        ('Finanzas', 'Finanzas')
+    ]
+    # --- FIN DEL CAMBIO ---
     STATUS_CHOICES = [
         ('Nuevo', 'Nuevo'),
         ('En Proceso', 'En Proceso'),
@@ -23,8 +36,8 @@ class Incident(models.Model):
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    type = models.CharField(max_length=50) # Ej: 'Hardware', 'Software', 'Red'
-    area = models.CharField(max_length=50) # Ej: 'Ventas', 'Operaciones'
+    type = models.CharField(max_length=50, choices=TYPE_CHOICES)
+    area = models.CharField(max_length=50, choices=AREA_CHOICES)
     description = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Nuevo')
     priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default='Media')
