@@ -45,14 +45,14 @@ Para construir y ejecutar la aplicación utilizando Docker, sigue estos pasos:
 
 1. Construir la imagen de Docker: 
     ```bash
-    docker build -t infratech-frontend .
+    docker build --no-cache -t mi-app-fullstack .
     ```
 
 2. Ejecutar el contenedor: 
     ```bash
-    docker run -d -p 80:80 infratech-frontend
+    docker run -d -p 8080:8000 --name mi-app mi-app-fullstack
     ```
-    La aplicación estará disponible en `http://localhost:80`.
+    La aplicación estará disponible en `http://localhost:8000`.
 
 ## Creditos
 Realizado por Pablo Morales, Benjamín Iturra y Benjamín Senler.
